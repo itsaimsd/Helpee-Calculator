@@ -163,7 +163,7 @@ const SortableButton = ({ id, label }) => {
       {...listeners}
       onClick={() => removeComponent(id)} // ✅ One-click delete
       className={`px-4 py-2 m-1 text-white rounded shadow cursor-pointer transition-all duration-150 ease-in-out ${
-        isDragging ? "scale-110 opacity-70" : "bg-blue-500 hover:bg-red-500"
+        isDragging ? "scale-110 opacity-30 bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
       }`}
       style={{
         transform: CSS.Transform.toString(transform),
@@ -207,7 +207,7 @@ const DropArea = () => {
       <SortableContext items={components.map((comp) => comp.id)}>
         <div
           ref={setNodeRef}
-          className="w-full min-h-40 border-2 border-dashed border-gray-400 flex flex-wrap p-4 bg-white shadow-lg rounded-lg"
+          className="w-full min-h-20 border-2 border-dashed border-gray-400 flex flex-wrap p-4 bg-white shadow-lg rounded-lg"
           style={{ touchAction: "none" }} // ✅ Prevents mobile scrolling while dragging
         >
           {components.map((component) => (
