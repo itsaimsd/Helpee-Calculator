@@ -64,10 +64,6 @@
 
 // export default DropArea;
 
-
-
-
-
 // import { DndContext, useDroppable } from "@dnd-kit/core";
 // import { useSortable, SortableContext, arrayMove } from "@dnd-kit/sortable";
 // import { CSS } from "@dnd-kit/utilities";
@@ -137,17 +133,28 @@
 
 // export default DropArea;
 
-
-
-import { DndContext, useDroppable, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
+import {
+  DndContext,
+  useDroppable,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { useSortable, SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import useCalculatorStore from "../store/useCalculatorStore";
 
 const SortableButton = ({ id, label }) => {
   const { removeComponent } = useCalculatorStore();
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
 
   return (
     <button
@@ -161,6 +168,7 @@ const SortableButton = ({ id, label }) => {
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
+        touchAction: "none", // ✅ Prevents scrolling while dragging
       }}
     >
       {label}
@@ -175,7 +183,9 @@ const DropArea = () => {
   // ✅ Enable both mouse and touch dragging for mobile support
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), // Normal mouse dragging
-    useSensor(TouchSensor, { activationConstraint: { delay: 100, tolerance: 5 } }) // ✅ Enables mobile touch dragging
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 100, tolerance: 5 },
+    }) // ✅ Enables mobile touch dragging
   );
 
   const handleDragEnd = (event) => {
@@ -198,6 +208,7 @@ const DropArea = () => {
         <div
           ref={setNodeRef}
           className="w-full min-h-40 border-2 border-dashed border-gray-400 flex flex-wrap p-4 bg-white shadow-lg rounded-lg"
+          style={{ touchAction: "none" }} // ✅ Prevents mobile scrolling while dragging
         >
           {components.map((component) => (
             <SortableButton
