@@ -13,7 +13,7 @@ const SortableButton = ({ id, label }) => {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      onClick={() => removeComponent(id)} // ✅ Instantly removes on first click
+      onClick={() => removeComponent(id)}
       className="px-4 py-2 m-1 bg-blue-500 text-white rounded shadow hover:bg-red-500 cursor-pointer"
       style={{
         transform: CSS.Transform.toString(transform),
