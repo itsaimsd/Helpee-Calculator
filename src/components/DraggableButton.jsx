@@ -2,9 +2,9 @@ import { useDraggable } from "@dnd-kit/core";
 import PropTypes from "prop-types";
 
 const DraggableButton = ({ id, label }) => {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
-    data: { label },
+    data: { label: String(label) }, // ✅ Convert label to string
   });
 
   return (
@@ -12,11 +12,11 @@ const DraggableButton = ({ id, label }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={`px-4 py-2 m-1 bg-blue-500 text-white rounded shadow hover:bg-blue-700 cursor-grab active:cursor-grabbing ${
-        isDragging ? "opacity-50" : "opacity-100" // ✅ Show button while dragging
-      }`}
+      className={`px-4 py-2 m-1 bg-blue-500 text-white rounded shadow hover:bg-blue-700 cursor-grab active:cursor-grabbing`}
       style={{
-        transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : "none",
+        transform: transform
+          ? `translate(${transform.x}px, ${transform.y}px)`
+          : "none",
         transition: "transform 0.2s ease", // ✅ Smooth drag effect
       }}
     >
