@@ -1,5 +1,4 @@
 import { useDraggable } from "@dnd-kit/core";
-import PropTypes from "prop-types";
 
 const DraggableButton = ({ id, label }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
