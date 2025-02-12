@@ -3,30 +3,28 @@ import { create } from "zustand";
 const useCalculatorStore = create((set) => ({
   components: JSON.parse(localStorage.getItem("calculatorLayout")) || [],
   result: "",
-  darkMode: JSON.parse(localStorage.getItem("darkMode")) || false, // ✅ Load from local storage
+  darkMode: JSON.parse(localStorage.getItem("darkMode")) || false,
   history: [],
   future: [],
 
   addComponent: (component) =>
     set((state) => {
-      // Generate a unique ID using timestamp
       const uniqueId = `${component.id}-${Date.now()}`;
 
-      const newComponent = { ...component, id: uniqueId }; // ✅ Unique ID
+      const newComponent = { ...component, id: uniqueId };
       const newComponents = [...state.components, newComponent];
 
       localStorage.setItem("calculatorLayout", JSON.stringify(newComponents));
 
       return {
         components: newComponents,
-        history: [...state.history, state.components], // ✅ Save past state
-        future: [], // ✅ Clear redo history
+        history: [...state.history, state.components],
+        future: [],
       };
     }),
 
   removeComponent: (id) =>
     set((state) => {
-      // ✅ Filter out the component with the matching ID
       const newComponents = state.components.filter(
         (component) => component.id !== id
       );
@@ -34,8 +32,8 @@ const useCalculatorStore = create((set) => ({
 
       return {
         components: newComponents,
-        history: [...state.history, state.components], // ✅ Save past state
-        future: [], // ✅ Clear redo history
+        history: [...state.history, state.components],
+        future: [],
       };
     }),
 
@@ -46,7 +44,6 @@ const useCalculatorStore = create((set) => ({
 
   setResult: (newResult) => set({ result: newResult }),
 
-  // ✅ Allow users to manually reorder inside Drop Area
   setComponents: (newComponents) =>
     set((state) => {
       localStorage.setItem("calculatorLayout", JSON.stringify(newComponents));
@@ -57,11 +54,10 @@ const useCalculatorStore = create((set) => ({
       };
     }),
 
-  // ✅ Dark mode toggle & save preference
   toggleDarkMode: () =>
     set((state) => {
       const newMode = !state.darkMode;
-      localStorage.setItem("darkMode", JSON.stringify(newMode)); // ✅ Save to localStorage
+      localStorage.setItem("darkMode", JSON.stringify(newMode));
       return { darkMode: newMode };
     }),
 

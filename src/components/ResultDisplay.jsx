@@ -6,7 +6,7 @@ const ResultDisplay = () => {
   const evaluateExpression = () => {
     const expression = components.map((comp) => comp.label).join("");
     try {
-      setResult(eval(expression)); // ✅ Update result using Zustand store
+      setResult(eval(expression));
     } catch (error) {
       console.error("Calculation error:", error);
       setResult("Error");
