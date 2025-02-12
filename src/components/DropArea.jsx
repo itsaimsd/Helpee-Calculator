@@ -9,6 +9,7 @@ import {
 import { useSortable, SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import useCalculatorStore from "../store/useCalculatorStore";
+import { useState } from "react";
 
 const SortableButton = ({ id, label }) => {
   const { removeComponent } = useCalculatorStore();
@@ -27,10 +28,11 @@ const SortableButton = ({ id, label }) => {
       {...attributes}
       {...listeners}
       onClick={() => removeComponent(id)}
-      className={`px-4 py-2 m-1 text-white rounded shadow cursor-pointer transition-all duration-150 ease-in-out ${
+      className={`px-5 py-3 m-2 text-white rounded-lg shadow-md cursor-pointer
+         transition-all duration-200 transform ${
         isDragging
-          ? "scale-110 opacity-30 bg-blue-500"
-          : "bg-blue-500 hover:bg-blue-800"
+          ? "scale-110 opacity-50 bg-blue-500"
+          : "bg-blue-500 hover:bg-blue-700 hover:shadow-xl active:scale-95"
       }`}
       style={{
         transform: CSS.Transform.toString(transform),
@@ -46,6 +48,7 @@ const SortableButton = ({ id, label }) => {
 const DropArea = () => {
   const { components, setComponents } = useCalculatorStore();
   const { setNodeRef } = useDroppable({ id: "drop-area" });
+  const [isHovered, setIsHovered] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -72,16 +75,28 @@ const DropArea = () => {
       <SortableContext items={components.map((comp) => comp.id)}>
         <div
           ref={setNodeRef}
-          className="w-full min-h-20 border-2 border-dashed border-gray-400 flex flex-wrap p-4 bg-white shadow-lg rounded-lg"
+          onDragEnter={() => setIsHovered(true)}
+          onDragLeave={() => setIsHovered(false)}
+          className={`w-full min-h-24 border-2 border-dashed flex flex-wrap p-6 rounded-xl shadow-lg bg-gray-50 dark:bg-gray-800 transition-all duration-300 ${
+            isHovered
+              ? "border-blue-400 shadow-xl scale-105"
+              : "border-gray-400"
+          }`}
           style={{ touchAction: "none" }}
         >
-          {components.map((component) => (
-            <SortableButton
-              key={component.id}
-              id={component.id}
-              label={component.label}
-            />
-          ))}
+          {components.length > 0 ? (
+            components.map((component) => (
+              <SortableButton
+                key={component.id}
+                id={component.id}
+                label={component.label}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400 text-lg italic">
+              Drag components here...
+            </p>
+          )}
         </div>
       </SortableContext>
     </DndContext>

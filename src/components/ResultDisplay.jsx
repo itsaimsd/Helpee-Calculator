@@ -6,25 +6,43 @@ const ResultDisplay = () => {
   const evaluateExpression = () => {
     const expression = components.map((comp) => comp.label).join("");
     try {
-      setResult(eval(expression));
+      // Evaluate safely
+      const safeResult = new Function(`return (${expression})`)();
+      setResult(safeResult);
     } catch (error) {
       console.error("Calculation error:", error);
-      setResult("Error");
+      setResult("Invalid Expression");
     }
   };
 
   return (
-    <div className="p-4 border rounded mt-4 bg-gray-50 shadow-md">
-      <div className="text-xl font-semibold">
-        {components.map((comp) => comp.label).join(" ") || "Start typing..."}
+    <div className="p-6 border rounded-xl mt-4 bg-white/30 backdrop-blur-lg shadow-xl dark:bg-gray-800 dark:border-gray-700 transition-all duration-300">
+      <div className="text-2xl font-semibold text-center text-gray-900 dark:text-white">
+        {components.length
+          ? components.map((comp) => comp.label).join(" ")
+          : "Start typing..."}
       </div>
-      <button
-        onClick={evaluateExpression}
-        className="bg-green-500 text-white px-4 py-2 mt-2 rounded"
+
+      {/* Calculation Button */}
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={evaluateExpression}
+          className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105"
+        >
+          =
+        </button>
+      </div>
+
+      {/* Result Display */}
+      <div
+        className={`mt-4 text-3xl font-bold text-center ${
+          result === "Invalid Expression"
+            ? "text-red-500"
+            : "text-green-700 dark:text-green-400"
+        }`}
       >
-        =
-      </button>
-      <div className="mt-2 text-2xl font-bold">Result: {result}</div>
+        {result !== "" ? result : "Result: 0"}
+      </div>
     </div>
   );
 };
