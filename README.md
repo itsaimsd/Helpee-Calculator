@@ -48,22 +48,6 @@ Now, open **http://localhost:5173/** in your browser. 🎉
 
 ---
 
-## 🏗 Deployment  
-
-### 🔹 **Netlify Deployment**  
-
-1. Push your project to **GitHub**.  
-2. Go to [Netlify](https://app.netlify.com/) and create a new site.  
-3. Connect your GitHub repository.  
-4. Set up the following **build settings**:  
-
-   - **Branch to deploy:** `main`  
-   - **Build command:** `npm run build`  
-   - **Publish directory:** `dist`  
-
-5. Click **Deploy** – Your app is now live! 🎉  
-
----
 
 ## 🛠 Built With  
 
