@@ -6,7 +6,6 @@ const ResultDisplay = () => {
   const evaluateExpression = () => {
     const expression = components.map((comp) => comp.label).join("");
     try {
-      // Evaluate safely
       const safeResult = new Function(`return (${expression})`)();
       setResult(safeResult);
     } catch (error) {
@@ -23,7 +22,6 @@ const ResultDisplay = () => {
           : "Start typing..."}
       </div>
 
-      {/* Calculation Button */}
       <div className="flex justify-center mt-4">
         <button
           onClick={evaluateExpression}
@@ -33,7 +31,6 @@ const ResultDisplay = () => {
         </button>
       </div>
 
-      {/* Result Display */}
       <div
         className={`mt-4 text-3xl font-bold text-center ${
           result === "Invalid Expression"
